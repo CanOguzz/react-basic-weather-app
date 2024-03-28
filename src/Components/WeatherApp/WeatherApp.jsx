@@ -10,14 +10,11 @@ import humidity_icon from "../Assets/humidity.png";
 import search_icon from "../Assets/search.png";
 import wind_icon from "../Assets/wind.png";
 
-
 export const WeatherApp = () => {
+  const [wicon, setWicon] = React.useState(clear_icon);
+  const [city, setCity] = React.useState("Istanbul");
 
-    const [wicon, setWicon] = React.useState(clear_icon);
-    const [city, setCity] = React.useState("Istanbul");
-
-    
-    let api_key = process.env.REACT_APP_OPENWEATHER_API_KEY;
+  let api_key = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
@@ -26,41 +23,58 @@ export const WeatherApp = () => {
     }
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${api_key}`;
 
-    let response = await fetch(url)
-    let data = await response.json()
-    console.log(data)
-    const humidity=document.getElementsByClassName("humidity-percent");
+    let response = await fetch(url);
+    let data = await response.json();
+    console.log(data);
+    const humidity = document.getElementsByClassName("humidity-percent");
     const wind = document.getElementsByClassName("wind-rate");
     const temprature = document.getElementsByClassName("weather-temp");
     //const location = document.getElementsByClassName("weather-location");
-    
+
     humidity[0].innerHTML = Math.floor(data.main.humidity) + "%";
     wind[0].innerHTML = Math.floor(data.wind.speed) + " km/h";
     temprature[0].innerHTML = Math.floor(data.main.temp) + "°C";
     //location[0].innerHTML = data.name;
     setCity(data.name);
 
-    
-    if(data.weather[0].icon === "01d" || data.weather[0].icon === "01n"){
-      setWicon(clear_icon)
-    }else{
-        if(data.weather[0].icon === "02d" || data.weather[0].icon === "02n" || data.weather[0].icon === "03d" || data.weather[0].icon === "03n"){
-            setWicon(clouds_icon)
-        }else{
-            if(data.weather[0].icon === "04d" || data.weather[0].icon === "04n" || data.weather[0].icon === "09d" || data.weather[0].icon === "09n" || data.weather[0].icon === "10d" || data.weather[0].icon === "10n"){
-            setWicon(rain_icon)
-            }else{
-            if(data.weather[0].icon === "13d" || data.weather[0].icon === "13n"){
-                setWicon(snow_icon)
-            }else{
-                if(data.weather[0].icon === "50d" || data.weather[0].icon === "50n"){
-                setWicon(drizzle_icon)
-                }
+    if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+      setWicon(clear_icon);
+    } else {
+      if (
+        data.weather[0].icon === "02d" ||
+        data.weather[0].icon === "02n" ||
+        data.weather[0].icon === "03d" ||
+        data.weather[0].icon === "03n"
+      ) {
+        setWicon(clouds_icon);
+      } else {
+        if (
+          data.weather[0].icon === "04d" ||
+          data.weather[0].icon === "04n" ||
+          data.weather[0].icon === "09d" ||
+          data.weather[0].icon === "09n" ||
+          data.weather[0].icon === "10d" ||
+          data.weather[0].icon === "10n"
+        ) {
+          setWicon(rain_icon);
+        } else {
+          if (
+            data.weather[0].icon === "13d" ||
+            data.weather[0].icon === "13n"
+          ) {
+            setWicon(snow_icon);
+          } else {
+            if (
+              data.weather[0].icon === "50d" ||
+              data.weather[0].icon === "50n"
+            ) {
+              setWicon(drizzle_icon);
             }
-            }
+          }
         }
+      }
     }
-}
+  };
   return (
     <div className="container">
       <div className="top-bar">
