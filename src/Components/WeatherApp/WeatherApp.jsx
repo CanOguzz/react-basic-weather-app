@@ -14,6 +14,7 @@ import wind_icon from "../Assets/wind.png";
 export const WeatherApp = () => {
 
     const [wicon, setWicon] = React.useState(clear_icon);
+    const [city, setCity] = React.useState("Istanbul");
 
     
     let api_key = process.env.REACT_APP_OPENWEATHER_API_KEY;
@@ -31,13 +32,15 @@ export const WeatherApp = () => {
     const humidity=document.getElementsByClassName("humidity-percent");
     const wind = document.getElementsByClassName("wind-rate");
     const temprature = document.getElementsByClassName("weather-temp");
-    const location = document.getElementsByClassName("weather-location");
-
+    //const location = document.getElementsByClassName("weather-location");
+    
     humidity[0].innerHTML = Math.floor(data.main.humidity) + "%";
     wind[0].innerHTML = Math.floor(data.wind.speed) + " km/h";
     temprature[0].innerHTML = Math.floor(data.main.temp) + "°C";
-    location[0].innerHTML = data.name;
+    //location[0].innerHTML = data.name;
+    setCity(data.name);
 
+    
     if(data.weather[0].icon === "01d" || data.weather[0].icon === "01n"){
       setWicon(clear_icon)
     }else{
@@ -79,7 +82,7 @@ export const WeatherApp = () => {
         <img src={wicon} alt="weather-icon" />
       </div>
       <div className="weather-temp">24°C</div>
-      <div className="weather-location">Istanbul</div>
+      <div className="weather-location">{city}</div>
       <div className="data-container">
         <div className="element">
           <img src={humidity_icon} alt="humidity-icon" />
