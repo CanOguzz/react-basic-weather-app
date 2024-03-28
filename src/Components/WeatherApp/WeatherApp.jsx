@@ -10,19 +10,23 @@ import humidity_icon from "../Assets/humidity.png";
 import search_icon from "../Assets/search.png";
 import wind_icon from "../Assets/wind.png";
 
-
-
-
-
-
 export const WeatherApp = () => {
+  let api_key = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
-    let api_key = process.env.REACT_APP_OPENWEATHER_API_KEY;
-
-    const search = () => {
-        
-
+  const search = async () => {
+    const element = document.getElementsByClassName("cityInput");
+    if (element[0].value === "") {
+      return 0;
     }
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${api_key}`;
+
+    let response = await fetch(url)
+    let data = await response.json()
+    console.log(data)
+    
+
+
+  };
   return (
     <div className="container">
       <div className="top-bar">
@@ -31,7 +35,12 @@ export const WeatherApp = () => {
           className="cityInput"
           placeholder="Enter City Name"
         ></input>
-        <div className="search-icon" onClick={() => {search()}}>
+        <div
+          className="search-icon"
+          onClick={() => {
+            search();
+          }}
+        >
           <img src={search_icon} alt="search-icon" />
         </div>
       </div>
